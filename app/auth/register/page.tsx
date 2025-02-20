@@ -1,9 +1,12 @@
 "use client";
  
+import React, { use } from "react";
 import { Span } from "next/dist/trace";
 import { space } from "postcss/lib/list";
-import React from "react";
+import { auth } from "@/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
     email: string,
@@ -12,6 +15,8 @@ type Inputs = {
   
 const Register = () => {
 
+    const router = useRouter();
+
     const { 
         register, 
         handleSubmit, 
@@ -19,9 +24,19 @@ const Register = () => {
     } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        console.log(data);
-    }
-    
+        await createUserWithEmailAndPassword(auth, data.email, data.password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                router.push("/auth/login");
+            })
+            .catch((error) => {
+                if(error.code === "auth/email-already-in-use") {
+                    alert("このメールアドレスは既に使用されています。");
+                } else {
+                    alert(error.message);
+                }
+            });
+    };
 
     return (
         <div className="h-screen flex flex-col items-center justify-center">
