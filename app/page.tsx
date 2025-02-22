@@ -1,6 +1,6 @@
 import Image from "next/image";
+import Sidebar from "./components/Sidebar";
 import Chat from "./components/Chat";
-import { Sidebar } from "./components/Sidebar";
 
 export default function Home() {
   return (
