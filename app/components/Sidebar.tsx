@@ -1,4 +1,5 @@
 import React from 'react'
+import { TbLogout2 } from "react-icons/tb";
 
 const Sidebar = () => {
   return (
@@ -22,6 +23,11 @@ const Sidebar = () => {
             Room 4
           </li>
         </ul>
+      </div>
+
+      <div className='text-lg flex items-center justify-evenly mb-2 cursor-pointer p-4 text-slate-100 hover:bg-slate-700 duration-150'>
+        <TbLogout2 />
+        <span>ログアウト</span>
       </div>
     </div>
   )
