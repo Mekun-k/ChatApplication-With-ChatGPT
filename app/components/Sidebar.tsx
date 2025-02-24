@@ -1,7 +1,28 @@
-import React from 'react'
+"use client";
+
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import React, { useEffect } from 'react';
 import { TbLogout2 } from "react-icons/tb";
+import { db } from '../firebase';
 
 const Sidebar = () => {
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const roomCollectionRef = collection(db, "rooms");
+      const q = query(roomCollectionRef, orderBy("createdAt"));
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const newRooms = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log(newRooms);
+      })
+    };
+
+    fetchRooms();
+  }, []);
+
   return (
     <div className='bg-customBlue h-full overflow-y-auto px-5 flex flex-col'>
       <div className='flex-grow'>
