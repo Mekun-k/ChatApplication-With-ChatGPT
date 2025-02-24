@@ -3,7 +3,7 @@
 import React, { use } from "react";
 import { Span } from "next/dist/trace";
 import { space } from "postcss/lib/list";
-import { auth } from "@/firebase";
+import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
