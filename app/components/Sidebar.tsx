@@ -28,7 +28,7 @@ const Sidebar = () => {
       // TODO: 複合クエリーを使用する際のIndexを定義する必要がある
       const q = query(
         roomCollectionRef,
-        where("userid", "==", "40dYus4tGDctG3Kgs3cK81pt1uT2"),
+        where("userId", "==", "40dYus4tGDctG3Kgs3cK81pt1uT2"),
         orderBy("createdAt")
       );
       const unsubscribe = onSnapshot(q, (snapshot) => {
