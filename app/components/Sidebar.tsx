@@ -38,7 +38,11 @@ const Sidebar = () => {
           createdAt: doc.data().createdAt,
         }));
         setRooms(newRooms);
-      })
+      });
+
+      return () => {
+        unsubscribe();
+      };
     };
 
     fetchRooms();
