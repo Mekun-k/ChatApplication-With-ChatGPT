@@ -32,16 +32,12 @@ export function AppProvider({ children }: AppProviderProps) {
     const [userId, setUserId] = useState<string | null>(null);
     const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
 
-    // useEffectの使用理由
-    // コンポーネントがマウントされた時（=初回表示時）にだけ発動する処理を記述したいとき
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (newUser) => {
             setUser(newUser);
             setUserId(newUser ? newUser.uid : null);
         });
 
-        // クリーンアップ関数、コンポーネントがアンマウントされる時に実行される処理
-        // コンポーネントが削除されるとき、Firebaseの認証状態の監視を解除
         return () => {
             unsubscribe();
         };
