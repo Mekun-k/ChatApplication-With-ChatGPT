@@ -1,9 +1,10 @@
 "use client";
 
 import { auth } from "@/app/firebase";
+import exp from "constants";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 type AppProviderProps = {
     children: ReactNode;
@@ -50,4 +51,8 @@ export function AppProvider({ children }: AppProviderProps) {
             {children}
         </AppContext.Provider>
     );
+}
+
+export function useAppContent() {
+    return useContext(AppContext);
 }

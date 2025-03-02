@@ -8,9 +8,10 @@ import {
   query, 
   where
 } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TbLogout2 } from "react-icons/tb";
 import { db } from '../firebase';
+import { useAppContent } from '@/context/AppContext';
 
 type Room = {
   id: string;
@@ -19,34 +20,41 @@ type Room = {
 };
 
 const Sidebar = () => {
-
+  const { user, userId } = useAppContent();
   const [rooms, setRooms] = useState<Room[]>([]);
 
+  // Memo
+  // ログインユーザーの userId に対応するルームデータを取得し、リアルタイムで監視するためのもの
   useEffect(() => {
-    const fetchRooms = async () => {
-      const roomCollectionRef = collection(db, "rooms");
-      // TODO: 複合クエリーを使用する際のIndexを定義する必要がある
-      const q = query(
-        roomCollectionRef,
-        where("userId", "==", "40dYus4tGDctG3Kgs3cK81pt1uT2"),
-        orderBy("createdAt")
-      );
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        const newRooms: Room[] = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          name: doc.data().name,
-          createdAt: doc.data().createdAt,
-        }));
-        setRooms(newRooms);
-      });
-
-      return () => {
-        unsubscribe();
+    if (user) {
+      const fetchRooms = async () => {
+        const roomCollectionRef = collection(db, "rooms");
+        const q = query(
+          roomCollectionRef,
+          where("userId", "==", userId),
+          orderBy("createdAt")
+        );
+        console.log(q);
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+          const newRooms: Room[] = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            name: doc.data().name,
+            createdAt: doc.data().createdAt,
+          }));
+          setRooms(newRooms);
+        });
+  
+        return () => {
+          unsubscribe();
+        };
       };
-    };
-
-    fetchRooms();
-  }, []);
+  
+      fetchRooms();
+    }
+    // Memo
+    // useEffect の最後の [] に入れた値は「この値が変わったら useEffect を実行する」という意味
+    // つまり userId が変わったときに useEffect を実施し直すという意味。
+  }, [userId]);
 
   return (
     <div className='bg-customBlue h-full overflow-y-auto px-5 flex flex-col'>
