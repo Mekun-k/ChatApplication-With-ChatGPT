@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AppProvider } from "@/context/AppContext";
 
 export const metadata: Metadata = {
   title: "ChatApplication-with-ChatGPT",
@@ -14,7 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body>
+        {/* これが何をしているか把握する */}
+        <AppProvider children={undefined}>
+        {children}
+        </AppProvider>
+      </body>
     </html>
   );
 }
