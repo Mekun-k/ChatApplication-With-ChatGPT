@@ -11,7 +11,7 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import { TbLogout2 } from "react-icons/tb";
 import { db } from '../firebase';
-import { useAppContent } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 
 type Room = {
   id: string;
@@ -20,7 +20,7 @@ type Room = {
 };
 
 const Sidebar = () => {
-  const { user, userId } = useAppContent();
+  const { user, userId } = useAppContext();
   const [rooms, setRooms] = useState<Room[]>([]);
 
   // Memo

@@ -53,6 +53,6 @@ export function AppProvider({ children }: AppProviderProps) {
     );
 }
 
-export function useAppContent() {
+export function useAppContext() {
     return useContext(AppContext);
 }
