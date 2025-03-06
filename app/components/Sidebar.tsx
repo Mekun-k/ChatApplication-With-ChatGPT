@@ -34,7 +34,6 @@ const Sidebar = () => {
           where("userId", "==", userId),
           orderBy("createdAt")
         );
-        console.log(q);
         const unsubscribe = onSnapshot(q, (snapshot) => {
           const newRooms: Room[] = snapshot.docs.map((doc) => ({
             id: doc.id,
